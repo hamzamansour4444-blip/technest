@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TechNest — Smart Tech, Smart Life</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .card-hover:hover { transform: translateY(-6px); }
+    .sale-badge { background: linear-gradient(90deg,#ff7a7a,#ff4d4d); }
+  </style>
+</head>
+<body class="bg-[#1a1b23] text-gray-200">
+  <header class="bg-[#222430] shadow sticky top-0 z-40 text-gray-100">
+    <div class="container mx-auto flex items-center justify-between p-4">
+      <div class="flex items-center gap-3">
+        <img src="https://img.icons8.com/fluency/48/electronics.png" alt="logo" class="w-10 h-10">
+        <div>
+          <div class="text-2xl font-bold text-blue-600">TechNest</div>
+          <div class="text-xs text-gray-500">Smart Tech · Smart Life</div>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#products" class="hover:text-blue-600">Products</a>
+        <a href="#packages" class="hover:text-blue-600">Bundles</a>
+        <a href="#testimonials" class="hover:text-blue-600">Reviews</a>
+        <a href="#" id="orders-link" class="hover:text-blue-400">Orders / Returns</a>
+        <a href="#" id="account-link" class="hover:text-blue-400">Account / Sign In</a>
+        <button id="open-cart" class="ml-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl text-white rounded">Cart (<span id="cart-count">0</span>)</button>
+      </nav>
+      <button id="mobile-menu" class="md:hidden">☰</button>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4">
+    <section class="mt-8 rounded-xl overflow-hidden bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-8 relative">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1400&q=60&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover opacity-10" alt="banner">
+      <div class="relative z-10 max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-extrabold">Find the latest electronics — right here.</h1>
+        <p class="mt-4 text-lg">Phones, laptops, gaming gear, wearables, cameras — curated & discounted. Fast shipping.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="#products" class="px-5 py-3 bg-[#2a2c38] text-blue-600 rounded-full font-semibold">Shop Products</a>
+          <a href="#packages" class="px-5 py-3 border border-white/30 rounded-full rounded-xl hover:bg-gray-100 transition">See Bundles</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Deals -->
+    <section id="featured" class="mt-8">
+      <h2 class="text-2xl font-bold mb-4">Featured Deals</h2>
+      <div class="flex overflow-x-auto gap-4 pb-4">
+        <!-- Example Featured Items (bundles + discounted products) -->
+        <div class="min-w-[220px] bg-[#2a2c38] p-3 rounded-xl shadow card-hover">
+          <img src="https://i.ibb.co/3v6s9F1/pack-mobile.jpg" class="w-full h-32 object-cover rounded">
+          <div class="mt-2 text-sm font-semibold">Starter Mobile Pack</div>
+          <div class="text-gray-400 line-through text-xs">$1299</div>
+          <div class="text-blue-400 font-bold">$1099</div>
+        </div>
+        <div class="min-w-[220px] bg-[#2a2c38] p-3 rounded-xl shadow card-hover">
+          <img src="https://images.unsplash.com/photo-1695044408389-f0a5a55e2b2b?w=900&q=60" class="w-full h-32 object-cover rounded">
+          <div class="mt-2 text-sm font-semibold">iPhone 15 Pro</div>
+          <div class="text-gray-400 line-through text-xs">$1099</div>
+          <div class="text-blue-400 font-bold">$999</div>
+        </div>
+        <div class="min-w-[220px] bg-[#2a2c38] p-3 rounded-xl shadow card-hover">
+          <img src="https://images.unsplash.com/photo-1611186871348-b1ce696e52ad?w=900&q=60" class="w-full h-32 object-cover rounded">
+          <div class="mt-2 text-sm font-semibold">Dell XPS 13</div>
+          <div class="text-gray-400 line-through text-xs">$1099</div>
+          <div class="text-blue-400 font-bold">$999</div>
+        </div>
+        <div class="min-w-[220px] bg-[#2a2c38] p-3 rounded-xl shadow card-hover">
+          <img src="https://images.unsplash.com/photo-1606813902919-5cb32b07b92f?w=900&q=60" class="w-full h-32 object-cover rounded">
+          <div class="mt-2 text-sm font-semibold">PlayStation 5</div>
+          <div class="text-gray-400 line-through text-xs">$699</div>
+          <div class="text-blue-400 font-bold">$599</div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Filters & Search + Tabs -->
+    <section class="mt-8 flex flex-col gap-4">
+      <div class="flex items-center gap-3">
+        <input id="search" type="search" placeholder="Search products..." class="p-3 rounded border w-64 rounded-xl hover:bg-gray-100 transition" />
+        <div class="ml-auto flex items-center gap-3 text-sm text-gray-600">
+          <div>Sort by:</div>
+          <select id="sort" class="p-2 rounded border rounded-xl hover:bg-gray-100 transition">
+            <option value="featured">Featured</option>
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Subcategory / Brand row (hidden unless category supports it) -->
+      <div id="brands-row" class="hidden mt-2 flex gap-2 overflow-auto"></div>
+    </section>
+
+    <!-- Products grid -->
+    
+    <!-- Sidebar + Products Layout -->
+    <div class="flex mt-8">
+      <!-- Sidebar -->
+      <aside class="hidden md:block w-64 mr-6 sticky top-24 self-start">
+        <h3 class="font-bold mb-3">Categories</h3>
+        <ul id="sidebar-cats" class="space-y-2 text-sm">
+          <li><button data-cat="all" class="w-full text-left hover:text-blue-400">All</button></li>
+          <li><button data-cat="Phones" class="w-full text-left hover:text-blue-400">Phones</button></li>
+          <li><button data-cat="Laptops" class="w-full text-left hover:text-blue-400">Laptops</button></li>
+          <li><button data-cat="Audio" class="w-full text-left hover:text-blue-400">Audio</button></li>
+          <li><button data-cat="Gaming" class="w-full text-left hover:text-blue-400">Gaming</button></li>
+          <li><button data-cat="Cameras" class="w-full text-left hover:text-blue-400">Cameras</button></li>
+          <li><button data-cat="Wearables" class="w-full text-left hover:text-blue-400">Wearables</button></li>
+          <li><button data-cat="Accessories" class="w-full text-left hover:text-blue-400">Accessories</button></li>
+          <li><button data-cat="SmartHome" class="w-full text-left hover:text-blue-400">SmartHome</button></li>
+        </ul>
+      </aside>
+      <!-- Products Grid -->
+      <div class="flex-1">
+
+<section id="products" class="mt-8">
+      <h2 id="products-title" class="text-2xl font-bold mb-4">Products</h2>
+      <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+      <div id="no-results" class="hidden text-center text-gray-500 mt-6">No products found.</div>
+    </section>
+    </div> <!-- end flex -->
+</div> <!-- end main flex wrapper -->
+
+    <!-- Bundles -->
+    <div class="mt-12"></div>
+    <section id="packages" class="mt-12 bg-gray-100 p-6 rounded-xl">
+      <h2 class="text-2xl font-bold mb-4">Bundles & Deals</h2>
+      <div id="bundle-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- Testimonials -->
+    
+    <div class="mt-12"></div>
+<section id="testimonials" class="mt-12">
+      <h2 class="text-2xl font-bold mb-4">Customer Reviews</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#2a2c38] p-6 rounded-xl shadow card">
+          <div class="text-yellow-400">★★★★★</div>
+          <p class="mt-2">“The MacBook arrived in just 2 days, perfectly packed. Customer support was super helpful. I’ll definitely order again.”</p>
+          <div class="mt-3 text-sm text-gray-400">— Mariam, Cairo</div>
+        </div>
+        <div class="bg-[#2a2c38] p-6 rounded-xl shadow card">
+          <div class="text-yellow-400">★★★★★</div>
+          <p class="mt-2">“Ordered a PlayStation 5 bundle — everything was original and delivered fast. Great experience overall.”</p>
+          <div class="mt-3 text-sm text-gray-400">— Youssef, Alexandria</div>
+        </div>
+        <div class="bg-[#2a2c38] p-6 rounded-xl shadow card">
+          <div class="text-yellow-400">★★★★☆</div>
+          <p class="mt-2">“Good quality headphones, sound is amazing. Delivery took 3 days instead of 2, but still satisfied.”</p>
+          <div class="mt-3 text-sm text-gray-400">— Salma, Giza</div>
+        </div>
+        <div class="bg-[#2a2c38] p-6 rounded-xl shadow card">
+          <div class="text-yellow-400">★★★★★</div>
+          <p class="mt-2">“Got the Vlogger Kit and it’s fantastic! The camera is sharp, and the tripod is very sturdy.”</p>
+          <div class="mt-3 text-sm text-gray-400">— Karim, Mansoura</div>
+        </div>
+        <div class="bg-[#2a2c38] p-6 rounded-xl shadow card">
+          <div class="text-yellow-400">★★★★★</div>
+          <p class="mt-2">“Excellent service! The fitness pack really helped me start my workouts. Totally worth it.”</p>
+          <div class="mt-3 text-sm text-gray-400">— Laila, Tanta</div>
+        </div>
+        <div class="bg-[#2a2c38] p-6 rounded-xl shadow card">
+          <div class="text-yellow-400">★★★★☆</div>
+          <p class="mt-2">“Ordered accessories for my laptop. Quality is great but delivery was delayed a bit.”</p>
+          <div class="mt-3 text-sm text-gray-400">— Ahmed, Port Said</div>
+        </div>
+      </div>
+    </section>
+
+
+  </main>
+
+  <!-- Product Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-[#2a2c38] rounded-xl shadow-lg max-w-2xl w-full overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-2">
+        <div class="p-4">
+          <img id="m-img" src="" alt="" class="w-full h-64 object-contain bg-gray-50 rounded" />
+        </div>
+        <div class="p-6">
+          <button id="close-modal" class="text-gray-500">✕</button>
+          <h3 id="m-title" class="text-2xl font-bold mt-2"></h3>
+          <div class="mt-2"><span id="m-price" class="text-2xl font-extrabold text-blue-600"></span> <span id="m-old" class="text-sm text-gray-400 line-through ml-2"></span></div>
+          <p id="m-desc" class="mt-4 text-gray-700"></p>
+          <div class="mt-6 flex gap-3">
+            <button id="m-add" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl text-white rounded">Add to cart</button>
+            <button id="m-close" class="px-4 py-2 border rounded rounded-xl hover:bg-gray-100 transition">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Drawer -->
+  <div id="cart-drawer" class="fixed right-4 top-20 w-80 bg-[#2a2c38] rounded-xl shadow-lg p-4 hidden z-50">
+    <h4 class="font-bold">Your Cart</h4>
+    <ul id="cart-list" class="mt-3 space-y-2 max-h-72 overflow-auto"></ul>
+    <div class="mt-4 flex justify-between items-center"><div class="font-semibold">Total</div><div id="cart-total" class="font-bold">$0</div></div>
+    <div class="mt-4 flex gap-2">
+      <button id="checkout-btn" class="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded-xl text-white rounded">Checkout</button>
+      <button id="clear-btn" class="px-3 py-2 border rounded rounded-xl hover:bg-gray-100 transition">Clear</button>
+    </div>
+  </div>
+
+  <!-- Checkout Modal (InstaPay number + WhatsApp confirmation including cart items) -->
+  <div id="checkout-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-60">
+    <div class="bg-[#2a2c38] rounded-xl shadow-lg max-w-md w-full p-6">
+      <h3 class="text-xl font-bold">Pay via InstaPay</h3>
+      <p class="text-sm text-gray-600 mt-2">Send payment to the InstaPay number below, then confirm via WhatsApp.</p>
+
+      <div class="mt-4 flex items-center justify-between bg-gray-50 p-3 rounded">
+        <div>
+          <div class="text-xs text-gray-500">InstaPay number</div>
+          <div id="insta-number" class="font-mono text-lg">01008444452</div>
+        </div>
+        <div class="flex flex-col gap-2">
+          <button id="copy-number" class="px-3 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl text-white rounded">Copy</button>
+          <button id="whatsapp-confirm" class="px-3 py-2 bg-green-600 hover:bg-green-700 transition text-white rounded-xl text-white rounded">Send Confirmation on WhatsApp</button>
+        </div>
+      </div>
+
+      <p class="text-xs text-gray-500 mt-3">After payment, please send the confirmation (screenshot or transaction ID) on WhatsApp. We'll process your order after verification.</p>
+
+      <div class="mt-6 text-right">
+        <button id="checkout-close" class="px-4 py-2 border rounded rounded-xl hover:bg-gray-100 transition">Close</button>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- About TechNest -->
+    <div class="mt-12"></div>
+<section id="about" class="mt-12 bg-[#2a2c38] p-8 rounded-xl">
+      <h2 class="text-2xl font-bold mb-4">About TechNest</h2>
+      <p class="text-gray-300 max-w-3xl">Founded in 2022, TechNest began as a small online shop for smart gadgets. Today, we’re building the go-to hub for affordable, reliable tech — your Amazon for electronics. Our mission is to make the latest technology accessible to everyone.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6 text-sm">
+        <div class="flex flex-col items-center">
+          <div class="text-2xl">🚚</div>
+          <div class="mt-2 font-semibold">Fast Shipping</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="text-2xl">💳</div>
+          <div class="mt-2 font-semibold">Secure Checkout</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="text-2xl">📞</div>
+          <div class="mt-2 font-semibold">24/7 Support</div>
+        </div>
+        <div class="flex flex-col items-center">
+          <div class="text-2xl">🎁</div>
+          <div class="mt-2 font-semibold">Bundle Deals</div>
+        </div>
+      </div>
+    </section>
+
+
+  <footer class="mt-12 p-6 text-center text-sm text-gray-400 bg-[#222430]">© 2025 TechNest — All rights reserved</footer>
+
+  <script>
+    // --------------------
+    // Full product dataset with subcategory/brand (programmatically generated to reach 100+ items)
+    // --------------------
+    const BRANDS = {
+      Phones: ['Apple','Samsung','Google','OnePlus','Xiaomi','Oppo','Huawei','Realme','Motorola'],
+      Laptops: ['Apple','Dell','HP','Lenovo','Asus','Acer','MSI','Razer'],
+      Audio: ['Sony','Bose','Sennheiser','JBL','Apple'],
+      Gaming: ['Sony','Microsoft','Nintendo','Asus','MSI'],
+      Cameras: ['Sony','Canon','Nikon','GoPro'],
+      Wearables: ['Apple','Samsung','Garmin','Fitbit'],
+      Accessories: ['Anker','Logitech','Belkin','Razer']
+    };
+
+    const PRODUCTS = [];
+
+    // seed specific flagship items
+    const seed = [
+      {name:'iPhone 15 Pro',cat:'Phones',brand:'Apple',price:999,old:1099,img:'https://images.unsplash.com/photo-1676036872070-9a73b24e7f0c?w=900&q=60',desc:'A17 Pro chip, pro camera system.'},
+      {name:'Samsung Galaxy S24 Ultra',cat:'Phones',brand:'Samsung',price:1199,old:1299,img:'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=900&q=60',desc:'Pro camera and display.'},
+      {name:'Google Pixel 8 Pro',cat:'Phones',brand:'Google',price:899,old:999,img:'https://images.unsplash.com/photo-1682675300029-9d0a3f5b8f09?w=900&q=60',desc:'The best of Android with AI.'},
+      {name:'MacBook Air M2',cat:'Laptops',brand:'Apple',price:1199,old:1299,img:'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=60',desc:'Lightweight, powerful M2 performance.'},
+      {name:'Dell XPS 13',cat:'Laptops',brand:'Dell',price:999,old:1099,img:'https://images.unsplash.com/photo-1541807084-5c52b6b2d5f2?w=900&q=60',desc:'Sleek design and excellent display.'},
+      {name:'Sony WH-1000XM5',cat:'Audio',brand:'Sony',price:399,old:449,img:'https://images.unsplash.com/photo-1580894747410-1b44a12b6d22?w=900&q=60',desc:'Top-tier noise-canceling headphones.'},
+      {name:'PlayStation 5',cat:'Gaming',brand:'Sony',price:599,old:699,img:'https://images.unsplash.com/photo-1606813902919-5cb32b07b92f?w=900&q=60',desc:'Next-gen console with ultra-fast SSD.'},
+      {name:'Canon EOS R6',cat:'Cameras',brand:'Canon',price:2199,old:2399,img:'https://images.unsplash.com/photo-1519181245277-cffeb31da2a2?w=900&q=60',desc:'Excellent low-light performance.'},
+      {name:'Garmin Fenix 7',cat:'Wearables',brand:'Garmin',price:699,old:799,img:'https://images.unsplash.com/photo-1509223197845-458d87318791?w=900&q=60',desc:'Rugged multisport GPS smartwatch.'}
+    ];
+
+    // add seeds
+    seed.forEach((s,i)=>{ s.id = i+1; PRODUCTS.push(s); });
+
+    // generate lots of phones and laptops and accessories
+    let id = PRODUCTS.length+1;
+    const categories = ['Phones','Laptops','Audio','Gaming','Cameras','Wearables','Accessories','SmartHome'];
+
+    // helper to pick brand by category
+    function pickBrand(cat){
+      const list = BRANDS[cat] || (BRANDS['Accessories']);
+      return list[Math.floor(Math.random()*list.length)];
+    }
+
+    // product name fragments
+    const phoneModels = ['Nova','Edge','Note','Pro','Max','Ultra','Lite','S','Z','Flip'];
+    const laptopModels = ['Air','Pro','X','Slim','Book','G','Note'];
+
+    // create ~120 items (including seeds)
+    while(PRODUCTS.length < 120){
+      const cat = categories[Math.floor(Math.random()*categories.length)];
+      const brand = pickBrand(cat);
+      let name;
+      let img = 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=900&q=60';
+      if(cat==='Phones'){
+        const model = phoneModels[Math.floor(Math.random()*phoneModels.length)];
+        name = `${brand} ${model} ${Math.floor(Math.random()*50)+1}`;
+        img = 'https://images.unsplash.com/photo-1562158076-4f63b71f0a1d?w=900&q=60';
+      } else if(cat==='Laptops'){
+        const model = laptopModels[Math.floor(Math.random()*laptopModels.length)];
+        name = `${brand} ${model} ${Math.floor(Math.random()*9)+1}`;
+        img = 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=60';
+      } else if(cat==='Audio'){
+        name = `${brand} Wireless Headphones ${Math.floor(Math.random()*100)+1}`;
+        img = 'https://images.unsplash.com/photo-1580894747410-1b44a12b6d22?w=900&q=60';
+      } else if(cat==='Gaming'){
+        name = `${brand} Gaming Console ${Math.floor(Math.random()*10)+1}`;
+        img = 'https://images.unsplash.com/photo-1612197527210-63bc6ec8c0e2?w=900&q=60';
+      } else if(cat==='Cameras'){
+        name = `${brand} Mirrorless ${Math.floor(Math.random()*10)+1}`;
+        img = 'https://images.unsplash.com/photo-1519183071298-a2962be54a21?w=900&q=60';
+      } else if(cat==='Wearables'){
+        name = `${brand} Smartwatch ${Math.floor(Math.random()*10)+1}`;
+        img = 'https://images.unsplash.com/photo-1523475496153-3d6cc1c7e3e1?w=900&q=60';
+      } else if(cat==='Accessories'){
+        name = `${brand} Accessory ${Math.floor(Math.random()*100)+1}`;
+        img = 'https://images.unsplash.com/photo-1585386959984-a4155229b9c5?w=900&q=60';
+      } else {
+        name = `${brand} Smart Device ${Math.floor(Math.random()*100)+1}`;
+      }
+
+      const basePrice = Math.round((Math.random()*1500)+50);
+      const oldPrice = Math.round(basePrice * (1 + (Math.random()*0.3 + 0.05)));
+      const p = { id: id++, name, cat, brand, price: basePrice, old: oldPrice, img, desc: `${name} — great device by ${brand}.` };
+      PRODUCTS.push(p);
+    }
+
+    // BUNDLES (3 custom images hosted)
+    const BUNDLES = [
+      {id:1,name:'Starter Mobile Pack',price:1099,old:1299,img:'https://i.ibb.co/3v6s9F1/pack-mobile.jpg',desc:'Phone + case + charger bundle.'},
+      {id:2,name:'Creator Kit',price:2499,old:2799,img:'https://i.ibb.co/2jq4j5T/pack-creator.jpg',desc:'Laptop + tablet + stylus for creators.'},
+      {id:3,name:'Ultimate Gaming Bundle',price:2899,old:3299,img:'https://i.ibb.co/0CqL1yS/pack-gaming.jpg',desc:'Gaming PC + monitor + keyboard + mouse.'},
+      {id:4,name:'Work From Home Kit',price:799,old:999,img:'https://images.unsplash.com/photo-1587614382346-4ec70e388b28?w=900&q=60',desc:'Laptop stand + webcam + headset for home office.'},
+      {id:5,name:'Gamer’s Deluxe Pack',price:1499,old:1799,img:'https://images.unsplash.com/photo-1618401479427-c8ef2d2c9e4c?w=900&q=60',desc:'Gaming chair + RGB keyboard + pro headset.'},
+      {id:6,name:'Vlogger Kit',price:1899,old:2199,img:'https://images.unsplash.com/photo-1508898578281-774ac4893c0e?w=900&q=60',desc:'Camera + tripod + microphone for creators.'},
+      {id:7,name:'Fitness Starter Pack',price:499,old:649,img:'https://images.unsplash.com/photo-1598971639058-5a39d6a3c3ef?w=900&q=60',desc:'Smartwatch + earbuds + armband.'}
+
+    ];
+
+    // state
+    let cart = [];
+    let active = null;
+    let activeBrand = null;
+
+    function formatPrice(p){ return '$'+p.toFixed(2); }
+
+    function renderGrid(list){
+      const grid = document.getElementById('grid'); grid.innerHTML='';
+      list.forEach(p=>{
+        const div = document.createElement('div');
+        div.className = 'bg-[#2a2c38] p-3 rounded-xl shadow card-hover transition cursor-pointer';
+        div.innerHTML = `
+          <div class="relative">
+            ${p.old && p.old>p.price?`<div class="absolute top-3 left-3 sale-badge text-white text-xs px-2 py-1 rounded">SALE</div>`:''}
+            <img src="${p.img}" alt="${p.name}" class="w-full h-44 object-cover rounded">
+          </div>
+          <div class="mt-3">
+            <div class="font-semibold text-sm">${p.name}</div>
+            <div class="text-xs text-gray-500">${p.brand || ''} • ${p.cat}</div>
+            <div class="mt-1">
+              ${p.old && p.old>p.price?`<span class="text-gray-400 line-through text-xs mr-2">${formatPrice(p.old)}</span>`:''}
+              <span class="text-blue-600 font-bold">${formatPrice(p.price)}</span>
+            </div>
+            <div class="mt-3 flex gap-2">
+              <button class="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl text-white rounded add-btn">Add</button>
+              <button class="px-3 py-2 border rounded details-btn rounded-xl hover:bg-gray-100 transition">Details</button>
+            </div>
+          </div>
+        `;
+        div.querySelector('.add-btn').addEventListener('click',(e)=>{ e.stopPropagation(); addToCart(p); });
+        div.querySelector('.details-btn').addEventListener('click',(e)=>{ e.stopPropagation(); openModal(p); });
+        div.addEventListener('click',()=>openModal(p));
+        grid.appendChild(div);
+      });
+    }
+
+    function renderBundles(){
+      const g = document.getElementById('bundle-grid'); g.innerHTML='';
+      BUNDLES.forEach(b=>{
+        const d = document.createElement('div'); d.className='bg-[#2a2c38] p-3 rounded-xl shadow card-hover cursor-pointer';
+        d.innerHTML = `
+          <img src="${b.img}" class="w-full h-44 object-cover rounded">
+          <div class="mt-3">
+            <div class="font-semibold">${b.name}</div>
+            <div class="mt-1"><span class="text-gray-400 line-through">${formatPrice(b.old)}</span> <span class="text-blue-600 font-bold">${formatPrice(b.price)}</span></div>
+            <div class="mt-3 flex gap-2"><button class="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl text-white rounded bundle-add">Add</button><button class="px-3 py-2 border rounded bundle-details rounded-xl hover:bg-gray-100 transition">Details</button></div>
+          </div>
+        `;
+        d.querySelector('.bundle-add').addEventListener('click',(e)=>{ e.stopPropagation(); addToCart(b); });
+        d.querySelector('.bundle-details').addEventListener('click',(e)=>{ e.stopPropagation(); openModal(b); });
+        d.addEventListener('click',()=>openModal(b));
+        g.appendChild(d);
+      });
+    }
+
+    // modal
+    function openModal(item){ active = item; document.getElementById('m-img').src = item.img; document.getElementById('m-title').innerText = item.name; document.getElementById('m-price').innerText = formatPrice(item.price); document.getElementById('m-old').innerText = item.old?formatPrice(item.old):''; document.getElementById('m-desc').innerText = item.desc || 'No description.'; document.getElementById('modal').classList.remove('hidden'); }
+    function closeModal(){ document.getElementById('modal').classList.add('hidden'); active=null; }
+
+    document.getElementById('close-modal').addEventListener('click',closeModal);
+    document.getElementById('m-close').addEventListener('click',closeModal);
+    document.getElementById('m-add').addEventListener('click',()=>{ if(active) addToCart(active); closeModal(); });
+
+    // cart functions
+    function addToCart(item){ cart.push(item); updateCartUI(); }
+    function removeFromCart(index){ cart.splice(index,1); updateCartUI(); }
+
+    function updateCartUI(){
+      document.getElementById('cart-count').innerText = cart.length;
+      const list = document.getElementById('cart-list'); list.innerHTML='';
+      let total=0;
+      cart.forEach((it,idx)=>{
+        total += it.price;
+        const li = document.createElement('li'); li.className='flex items-center justify-between';
+        li.innerHTML = `<div class="text-sm"><div class="font-medium">${it.name}</div><div class="text-xs text-gray-500">${formatPrice(it.price)}</div></div><div class="flex gap-2"><button class="text-red-500 hover:text-red-700 transition remove-btn">Remove</button></div>`;
+        li.querySelector('.remove-btn').addEventListener('click',()=>removeFromCart(idx));
+        list.appendChild(li);
+      });
+      document.getElementById('cart-total').innerText = formatPrice(total);
+      if(cart.length>0) document.getElementById('cart-drawer').classList.remove('hidden'); else document.getElementById('cart-drawer').classList.add('hidden');
+    }
+
+    document.getElementById('open-cart').addEventListener('click',()=>{ document.getElementById('cart-drawer').classList.toggle('hidden'); });
+    document.getElementById('clear-btn').addEventListener('click',()=>{ cart=[]; updateCartUI(); });
+
+    // Checkout modal behavior
+    document.getElementById('checkout-btn').addEventListener('click',()=>{
+      if(cart.length===0){ alert('Your cart is empty'); return; }
+      document.getElementById('checkout-modal').classList.remove('hidden'); document.getElementById('checkout-modal').classList.add('flex');
+    });
+
+    document.getElementById('checkout-close').addEventListener('click',()=>{ document.getElementById('checkout-modal').classList.add('hidden'); document.getElementById('checkout-modal').classList.remove('flex'); });
+
+    // Copy number
+    document.getElementById('copy-number').addEventListener('click',()=>{
+      const num = document.getElementById('insta-number').innerText.trim();
+      navigator.clipboard.writeText(num).then(()=>{ alert('Copied InstaPay number: ' + num); });
+    });
+
+    // WhatsApp confirmation including cart items and total, now with nicer formatting
+    document.getElementById('whatsapp-confirm').addEventListener('click',()=>{
+      const rawNumber = document.getElementById('insta-number').innerText.trim();
+      let phone = rawNumber.replace(/[^0-9+]/g,'');
+      if(phone.startsWith('0')) phone = '20'+phone.slice(1);
+      if(!phone.startsWith('+') && !phone.startsWith('20')) phone = '20'+phone;
+
+      const agg = {};
+      cart.forEach(it=>{ agg[it.name] = (agg[it.name]||0) + 1; });
+      const lines = Object.keys(agg).map(k=> `${agg[k]} x ${k}`);
+      const total = cart.reduce((s,i)=>s+i.price,0);
+
+      let msg = `Hello, I have sent payment via InstaPay to ${rawNumber} for my TechNest order.%0A%0AItems:%0A`;
+      msg += encodeURIComponent(lines.join('%0A'));
+      msg += `%0A%0ATotal: ${encodeURIComponent('$'+total.toFixed(2))}%0A%0APlease confirm with the transaction ID.`;
+
+      const waUrl = `https://wa.me/${phone}?text=${msg}`;
+      window.open(waUrl, '_blank');
+    });
+
+    // tabs behavior + brand row
+    document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',(e)=>{
+      document.querySelectorAll('.tab').forEach(x=>{ x.classList.remove('ring-2'); x.classList.remove('opacity-80'); });
+      e.currentTarget.classList.add('ring-2','ring-offset-2','ring-indigo-300');
+      const cat = e.currentTarget.dataset.cat;
+      document.getElementById('products-title').innerText = cat==='all' ? 'All Products' : `${cat}`;
+      // show brand row if Phones or Laptops
+      const brandsRow = document.getElementById('brands-row'); brandsRow.innerHTML='';
+      if(cat==='Phones' || cat==='Laptops'){
+        brandsRow.classList.remove('hidden');
+        const brandsSet = new Set();
+        PRODUCTS.filter(p=>p.cat===cat).forEach(p=>brandsSet.add(p.brand));
+        const allBtn = document.createElement('button'); allBtn.className='px-3 py-1 rounded bg-[#2a2c38] border'; allBtn.innerText='All'; allBtn.dataset.brand='all'; brandsRow.appendChild(allBtn);
+        brandsSet.forEach(b=>{ const btn = document.createElement('button'); btn.className='px-3 py-1 rounded bg-[#2a2c38] border'; btn.innerText=b; btn.dataset.brand=b; brandsRow.appendChild(btn); });
+        // brand click handlers
+        brandsRow.querySelectorAll('button').forEach(btn=>btn.addEventListener('click', (ev)=>{
+          brandsRow.querySelectorAll('button').forEach(x=>x.classList.remove('bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl','text-white'));
+          ev.currentTarget.classList.add('bg-blue-600 hover:bg-blue-700 transition text-white rounded-xl','text-white');
+          activeBrand = ev.currentTarget.dataset.brand==='all'?null:ev.currentTarget.dataset.brand;
+          applyFilters();
+        }));
+      } else { brandsRow.classList.add('hidden'); activeBrand = null; }
+      // set hidden category select for filtering logic
+      document.getElementById('category').value = cat;
+      applyFilters();
+    }));
+
+    // search & filters
+    document.getElementById('search').addEventListener('input',applyFilters);
+    document.getElementById('sort').addEventListener('change',applyFilters);
+
+    function applyFilters(){
+      const q = document.getElementById('search').value.trim().toLowerCase();
+      const cat = document.getElementById('category').value || 'all';
+      const sort = document.getElementById('sort').value;
+      let list = PRODUCTS.slice();
+      if(cat && cat!=='all') list = list.filter(x=>x.cat===cat);
+      if(activeBrand) list = list.filter(x=>x.brand===activeBrand);
+      if(q) list = list.filter(x=> x.name.toLowerCase().includes(q) || (x.desc && x.desc.toLowerCase().includes(q)) );
+      if(sort==='priceAsc') list.sort((a,b)=>a.price-b.price);
+      if(sort==='priceDesc') list.sort((a,b)=>b.price-a.price);
+      renderGrid(list);
+      document.getElementById('no-results').classList.toggle('hidden', list.length>0);
+    }
+
+    
+// Sidebar category buttons
+document.querySelectorAll('#sidebar-cats button').forEach(btn=>{
+  btn.addEventListener('click',(e)=>{
+    const cat = e.currentTarget.dataset.cat;
+    document.getElementById('products-title').innerText = cat==='all' ? 'All Products' : cat;
+    document.getElementById('category').value = cat;
+    applyFilters();
+  });
+});
+
+// initial render
+    renderGrid(PRODUCTS);
+    renderBundles();
+  </script>
+
+<!-- Local Auth Modal -->
+<div id="auth-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-70">
+  <div class="bg-[#2a2c38] p-6 rounded-xl w-full max-w-md text-gray-200 relative">
+    <button id="auth-close" class="absolute top-2 right-2 text-gray-400">✕</button>
+    <h3 class="text-xl font-bold mb-4">Sign In to TechNest</h3>
+    <div id="auth-error" class="text-sm text-red-400 mb-2 hidden"></div>
+    <label class="text-sm">Email</label>
+    <input id="auth-email" type="email" class="w-full p-2 rounded-xl bg-[#23242b] border border-gray-600 mt-1 mb-3" placeholder="you@example.com">
+    <label class="text-sm">Password</label>
+    <input id="auth-pass" type="password" class="w-full p-2 rounded-xl bg-[#23242b] border border-gray-600 mt-1 mb-4" placeholder="Enter password">
+    <div class="flex gap-2 mb-3">
+      <button id="auth-signin" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl text-white">Sign In</button>
+      <button id="auth-register" class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-xl text-white">Create Account</button>
+    </div>
+    <button id="auth-google" class="w-full px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl text-white mb-2">Continue with Google</button>
+    <a href="#" id="auth-forgot" class="text-xs text-blue-400 hover:underline">Forgot password?</a>
+  </div>
+</div>
+
+<!-- Orders Modal -->
+<div id="orders-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-70">
+  <div class="bg-[#2a2c38] p-6 rounded-xl w-full max-w-lg text-gray-200 relative">
+    <button id="orders-close" class="absolute top-2 right-2 text-gray-400">✕</button>
+    <h3 class="text-xl font-bold mb-4">Your Orders</h3>
+    <div id="orders-content" class="space-y-4 text-sm text-gray-300"></div>
+  </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Local user store (simple demo)
+  function getUser(){ return JSON.parse(localStorage.getItem('technestUser')||'null'); }
+  function setUser(u){ localStorage.setItem('technestUser', JSON.stringify(u)); }
+  function clearUser(){ localStorage.removeItem('technestUser'); }
+
+  const accountLink = document.getElementById('account-link');
+  const ordersLink = document.getElementById('orders-link');
+  const authModal = document.getElementById('auth-modal');
+  const authClose = document.getElementById('auth-close');
+  const authSignin = document.getElementById('auth-signin');
+  const authRegister = document.getElementById('auth-register');
+  const authGoogle = document.getElementById('auth-google');
+  const authForgot = document.getElementById('auth-forgot');
+  const authEmail = document.getElementById('auth-email');
+  const authPass = document.getElementById('auth-pass');
+  const authError = document.getElementById('auth-error');
+  const ordersModal = document.getElementById('orders-modal');
+  const ordersClose = document.getElementById('orders-close');
+  const ordersContent = document.getElementById('orders-content');
+
+  function updateHeader(){
+    const user = getUser();
+    if(user){
+      accountLink.innerText = 'Hello, ' + user.name;
+      if(!document.getElementById('signout-link')){
+        const signout = document.createElement('a');
+        signout.href='#';
+        signout.id='signout-link';
+        signout.className='ml-4 hover:text-red-400';
+        signout.innerText='Sign Out';
+        signout.addEventListener('click',(e)=>{ e.preventDefault(); clearUser(); updateHeader(); });
+        accountLink.insertAdjacentElement('afterend', signout);
+      }
+    } else {
+      accountLink.innerText = 'Account / Sign In';
+      const signout = document.getElementById('signout-link');
+      if(signout) signout.remove();
+    }
+  }
+
+  // Open/close modals
+  accountLink.addEventListener('click',(e)=>{ e.preventDefault(); authModal.classList.remove('hidden'); authModal.classList.add('flex'); });
+  authClose.addEventListener('click',()=>{ authModal.classList.add('hidden'); authModal.classList.remove('flex'); });
+  ordersLink.addEventListener('click',(e)=>{
+    e.preventDefault();
+    ordersModal.classList.remove('hidden'); ordersModal.classList.add('flex');
+    const user = getUser();
+    if(user){
+      ordersContent.innerHTML = '<div class="p-3 bg-[#23242b] rounded">No orders yet. (Demo data)</div>';
+    } else {
+      ordersContent.innerHTML = '<p class="text-gray-400">Please sign in to view your orders.</p>';
+    }
+  });
+  ordersClose.addEventListener('click',()=>{ ordersModal.classList.add('hidden'); ordersModal.classList.remove('flex'); });
+
+  function showError(msg){ authError.innerText=msg; authError.classList.remove('hidden'); }
+  function clearError(){ authError.classList.add('hidden'); }
+
+  authSignin.addEventListener('click',()=>{
+    clearError();
+    const email=authEmail.value.trim(), pass=authPass.value;
+    if(!email||!pass){ showError('Enter email & password'); return; }
+    const user={name: email.split('@')[0], email};
+    setUser(user);
+    authModal.classList.add('hidden'); authModal.classList.remove('flex');
+    updateHeader();
+  });
+
+  authRegister.addEventListener('click',()=>{
+    clearError();
+    const email=authEmail.value.trim(), pass=authPass.value;
+    if(!email||!pass){ showError('Enter email & password'); return; }
+    const user={name: email.split('@')[0], email};
+    setUser(user);
+    authModal.classList.add('hidden'); authModal.classList.remove('flex');
+    updateHeader();
+  });
+
+  authGoogle.addEventListener('click',()=>{
+    const user={name:'GoogleUser', email:'google@demo.com'};
+    setUser(user);
+    authModal.classList.add('hidden'); authModal.classList.remove('flex');
+    updateHeader();
+  });
+
+  authForgot.addEventListener('click',(e)=>{ e.preventDefault(); alert('Password reset link sent (demo).'); });
+
+  updateHeader();
+
+  // Category filtering
+  document.querySelectorAll('#sidebar-cats button').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      const cat = e.currentTarget.dataset.cat;
+      document.getElementById('products-title').innerText = cat==='all' ? 'All Products' : cat;
+      document.getElementById('category').value = cat;
+      applyFilters();
+    });
+  });
+});
+</script>
+
+</body>
+</html>
